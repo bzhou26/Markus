@@ -68,7 +68,7 @@ jQuery(document).ajaxComplete(function(event, request) {
   var keysLength = keys.length;
   var flashMessageList = [];
   var receive = false;
-  for (var i = 0; i < keysLength; i++){
+  for (var i = 0; i < keysLength; i++) {
     flashMessageList.push(request.getResponseHeader('X-Message-' + keys[i]));
     if (flashMessageList[i]) receive = true;
   }
