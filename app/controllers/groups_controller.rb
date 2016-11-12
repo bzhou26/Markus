@@ -17,8 +17,10 @@ class GroupsController < ApplicationController
   def note_message
     @assignment = Assignment.find(params[:id])
     if params[:success]
-      flash[:notice] = I18n.t('notes.create.success')
+      flash_now(:notice, I18n.t('notes.create.success'))
+      # flash[:notice] = I18n.t('notes.create.success')
     else
+
       flash[:error] = I18n.t('notes.error')
     end
   end
@@ -30,9 +32,9 @@ class GroupsController < ApplicationController
     assignment = Assignment.find(params[:assignment_id])
     begin
       assignment.add_group(params[:new_group_name])
-      flash.now[:success] = I18n.t('groups.rename_group.success')
+      flash_now(:success, I18n.t('groups.rename_group.success'))
     rescue Exception => e
-      flash[:error] = e.message
+      flash_now(:error, e.message)
     ensure
       head :ok
     end
@@ -55,7 +57,7 @@ class GroupsController < ApplicationController
     else
       grouping.delete_grouping
       @removed_groupings.push(grouping)
-      flash[:success] = I18n.t('groups.delete')
+      flash_now(:success, I18n.t('groups.delete'))
     end
     head :ok
   end
@@ -76,7 +78,7 @@ class GroupsController < ApplicationController
       # We update the group_name
       @group.group_name = params[:new_groupname]
       if @group.save
-        flash[:success] = I18n.t('groups.rename_group.success')
+        flash_now(:success, I18n.t('groups.rename_group.success'))
       end
     else
 
@@ -89,7 +91,7 @@ class GroupsController < ApplicationController
 
       if Grouping.where(assignment_id: @assignment.id, group_id: groupexist_id)
                  .to_a
-         flash[:error] = I18n.t('groups.rename_group.already_in_use')
+         flash_now(:error, I18n.t('groups.rename_group.already_in_use'))
       else
         @grouping.update_attribute(:group_id, groupexist_id)
       end
