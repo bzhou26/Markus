@@ -20,9 +20,7 @@ class AnnotationCategoriesController < ApplicationController
     @assignment = Assignment.find(params[:assignment_id])
     @annotation_category = @assignment.annotation_categories
                                       .new(annotation_category_params)
-    # if @annotation_category.save
-    if @annotation_category
-      Resque.enqueue(DurationGatter, @annotation_category)
+    if @annotation_category.save
       render :insert_new_annotation_category
     else
       render :new_annotation_category_error
