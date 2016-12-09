@@ -1,6 +1,9 @@
+require 'resque_web'
 Markus::Application.routes.draw do
   resources :key_pairs
-
+  ResqueWeb::Engine.eager_load!
+  mount ResqueWeb::Engine => '/resque_web'
+  mount Resque::Server, :at => "/resque"
   # Install the default routes as the lowest priority.
   root controller: 'main', action: 'login', via: [:post, :get]
 
